@@ -1,3 +1,9 @@
-import { IncomingMessage } from "http"
+import { IncomingMessage } from "http";
 
-export interface ArcRequest extends IncomingMessage{}
+export interface ArcRequest extends IncomingMessage {
+  body?: any;
+  query?: Record<string, string>;
+  params?: Record<string, string>;
+  cookies?: Record<string, string>;
+  user?: any;
+}
