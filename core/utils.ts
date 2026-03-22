@@ -1,0 +1,2 @@
+export parseQuery = (url : string) => {
+}
