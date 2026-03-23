@@ -17,6 +17,14 @@ export class Router {
 
   private add(method: string, path: string, handlers: Middleware[]) {
     const keys: string[] = [];
-    const pattern = new RegExp();
+    const pattern = new RegExp(
+      "^" +
+        path.replace(/:([^/]+)/g, (_, name) => {
+          keys.push(name);
+          return "([^/]+)";
+        }) +
+        "$",
+    );
+    this.routes.push({ method, pattern, keys, handlers });
   }
 }
