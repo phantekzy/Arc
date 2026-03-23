@@ -27,4 +27,7 @@ export class Router {
     );
     this.routes.push({ method, pattern, keys, handlers });
   }
+  get(path: string, ...h: Middleware[]) {
+    this.add("GET", path, h);
+  }
 }
