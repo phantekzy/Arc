@@ -18,5 +18,7 @@ export class Arc {
     const arcRes = enhanceResponse(res);
     const { path, query } = parseQuery(req.url || "/");
     arcReq.query = query;
+    const matched = this.router.match(req.method || "GET", path);
+    if (!matched) return arcRes.status(404).json({ error: "Not Found" });
   }
 }
