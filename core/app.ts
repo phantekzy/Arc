@@ -16,9 +16,13 @@ export class Arc {
   private async handle(req: http.IncomingMessage, res: http.ServerResponse) {
     const arcReq = req as ArcRequest;
     const arcRes = enhanceResponse(res);
+
     const { path, query } = parseQuery(req.url || "/");
     arcReq.query = query;
+
     const matched = this.router.match(req.method || "GET", path);
     if (!matched) return arcRes.status(404).json({ error: "Not Found" });
+
+    arcReq.params = matched.params;
   }
 }
