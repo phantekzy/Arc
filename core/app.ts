@@ -2,6 +2,7 @@ import http from "http";
 import { Middleware, Router } from "./router";
 import { ArcRequest } from "./request";
 import { enhanceResponse } from "./response";
+import { parseQuery } from "./utils";
 
 export class Arc {
   public router = new Router();
@@ -15,5 +16,7 @@ export class Arc {
   private async handle(req: http.IncomingMessage, res: http.ServerResponse) {
     const arcReq = req as ArcRequest;
     const arcRes = enhanceResponse(res);
+    const { path, query } = parseQuery(req.url || "/");
+    arcReq.query = query;
   }
 }
