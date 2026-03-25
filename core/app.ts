@@ -13,6 +13,7 @@ export class Arc {
   listen(port: number, cb: () => void) {
     http.createServer((req, res) => this.handle(req, res)).listen(port, cb);
   }
+
   private async handle(req: http.IncomingMessage, res: http.ServerResponse) {
     const arcReq = req as ArcRequest;
     const arcRes = enhanceResponse(res);
@@ -24,5 +25,6 @@ export class Arc {
     if (!matched) return arcRes.status(404).json({ error: "Not Found" });
 
     arcReq.params = matched.params;
+    const pipeline = [...this.middlewares, ...matched.handlers];
   }
 }
