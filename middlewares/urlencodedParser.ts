@@ -31,6 +31,7 @@ export const urlencodedParser: Middleware = (req, res, next) => {
           const decodedValue = decodeURIComponent(
             (value || "").replace(/\+/g, " "),
           );
+          parsedBody[decodedKey] = decodedValue;
         }
       }
     } catch (error) {}
