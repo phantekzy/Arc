@@ -1,11 +1,13 @@
-import { HttpError } from "../core/error";
 import { Middleware } from "../core/router";
+import { HttpError } from "../core/error";
 
-const MAX_PAYLOAD_SIZE = 1048576;
+const MAX_PAYLOAD_SIZE = 1048576; // 1MB limit
+
 export const urlencodedParser: Middleware = (req, res, next) => {
   if (req.headers["content-type"] !== "application/x-www-form-urlencoded") {
     return next();
   }
+
   let body = "";
   let byteCount = 0;
 
@@ -24,7 +26,7 @@ export const urlencodedParser: Middleware = (req, res, next) => {
       const pairs = body.split("&");
 
       for (const pair of pairs) {
-        if (!pairs) continue;
+        if (!pair) continue;
         const [key, value] = pair.split("=");
         if (key) {
           const decodedKey = decodeURIComponent(key.replace(/\+/g, " "));
@@ -34,6 +36,11 @@ export const urlencodedParser: Middleware = (req, res, next) => {
           parsedBody[decodedKey] = decodedValue;
         }
       }
-    } catch (error) {}
+
+      req.body = parsedBody;
+      next();
+    } catch (err) {
+      next(new HttpError(400, "Invalid URL-encoded payload"));
+    }
   });
 };
