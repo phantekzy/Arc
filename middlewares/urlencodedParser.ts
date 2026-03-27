@@ -18,11 +18,15 @@ export const urlencodedParser: Middleware = (req, res, next) => {
     body += chunk.toString();
   });
 
-req.on('end',() =>{
-        try {
-           const parsedBody : Record<string,string> = {} 
-        } catch (error) {
-            
-        } 
-    })
+  req.on("end", () => {
+    try {
+      const parsedBody: Record<string, string> = {};
+      const pairs = body.split("&");
+
+      for (const pair of pairs) {
+        if (!pairs) continue;
+        const [key, value] = pair.split("=");
+      }
+    } catch (error) {}
+  });
 };
