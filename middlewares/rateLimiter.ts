@@ -28,5 +28,8 @@ export const rateLimiter = (limit: number, windowMs: number): Middleware => {
       res.status(429).json({ error: "Too Many Requests" });
       return;
     }
+
+    record.count++;
+    next();
   };
 };
