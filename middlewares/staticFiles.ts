@@ -1,5 +1,6 @@
 import path from "path";
 import { Middleware } from "../core/router";
+import { HttpError } from "../core/error";
 
 const MIME_TYPES: Record<string, string> = {
   ".html": "text/html",
@@ -27,5 +28,10 @@ export const staticFiles = (
     }
     const relativePath = urlPath.slice(prefix.length);
     const filePath = path.join(absoluteRoot, relativePath);
+
+    if (!filePath.startsWith(absoluteRoot)) {
+      return next(new HttpError(403, "Forbidden"));
+      return next();
+    }
   };
 };
