@@ -26,5 +26,6 @@ export const staticFiles = (
       return next();
     }
     const relativePath = urlPath.slice(prefix.length);
+    const filePath = path.join(absoluteRoot, relativePath);
   };
 };
