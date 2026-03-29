@@ -21,6 +21,6 @@ export const staticFiles = (
     if (req.method !== "GET" && req.method !== "HEAD") {
       return next();
     }
+    const urlPath = req.url?.split("?")[0] || "/";
   };
-  const urlPath = req.url?.split("?")[0] || "/";
 };
