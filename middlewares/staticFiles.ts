@@ -34,11 +34,10 @@ export const staticFiles = (
       return next(new HttpError(403, "Forbidden"));
     }
     fs.stat(filePath, (err, stats) => {
-      if (err || !stats.isFile()) {
+      if (err || !stats.isFile) {
         return next();
       }
+      const ext = path.extname(filePath).toLowerCase();
     });
-    const ext = path.extname(filePath).toLowerCase();
-    const contentType = MIME_TYPES[ext] || "application/octet-stream";
   };
 };
