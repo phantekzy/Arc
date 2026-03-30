@@ -50,6 +50,11 @@ export const staticFiles = (
       }
 
       const stream = fs.createReadStream(filePath);
+      stream.on("error", () => {
+        if (!res.headersSent) {
+          next(new HttpError(500, "Error Reading files"));
+        }
+      });
     });
   };
 };
