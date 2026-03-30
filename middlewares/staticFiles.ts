@@ -38,5 +38,6 @@ export const staticFiles = (
         return next();
       }
     });
+    const ext = path.extname(filePath).toLowerCase();
   };
 };
