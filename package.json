@@ -9,6 +9,7 @@
     "start": "node dist/server.js"
   },
   "dependencies": {
+    "dotenv": "^17.3.1",
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
