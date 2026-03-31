@@ -5,7 +5,7 @@ import { Router, Middleware } from "./router";
 import { parseQuery } from "./utils";
 import { HttpError } from "./error";
 
-export class ArcNet {
+export class Arc {
   public router = new Router();
   private middlewares: Middleware[] = [];
 
