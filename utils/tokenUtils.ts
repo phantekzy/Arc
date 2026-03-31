@@ -9,3 +9,7 @@ const getSecret = (): Secret => {
   }
   return secret;
 };
+
+const FINAL_SECRET = getSecret();
+
+export class TokenUtils {}
