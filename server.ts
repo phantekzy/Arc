@@ -12,3 +12,9 @@ app.use(cors);
 app.use(jsonParser);
 
 registerUserRoutes(app);
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(Number(PORT), () => {
+  console.log(`Arc Engine running on http://localhost:${PORT}`);
+});
