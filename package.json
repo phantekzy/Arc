@@ -1,12 +1,20 @@
 {
-  "name": "arc-framework",
+  "name": "arc",
   "version": "1.0.0",
-  "description": "High-performance strictly-typed HTTP orchestration engine",
-  "main": "server.ts",
+  "description": "Framework for nodejs",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/src",
+    "dist/core",
+    "dist/middlewares",
+    "README.md"
+  ],
   "scripts": {
     "dev": "ts-node server.ts",
-    "build": "tsc",
-    "start": "node dist/server.js"
+    "build": "rm -rf dist && tsc",
+    "start": "node dist/server.js",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "dotenv": "^17.3.1",
