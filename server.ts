@@ -25,3 +25,19 @@ app.use(staticFiles(publicPath, "/static"));
 registerUserRoutes(app);
 
 const PORT = parseInt(process.env.PORT || "3000", 10);
+app.listen(PORT, () => {
+  console.log("-------------------------------------------");
+  console.log(`[SYS] Arc Engine: Operational`);
+  console.log(`[SYS] Endpoint:      http://localhost:${PORT}`);
+  console.log(`[SYS] Static Root:   ${publicPath}`);
+  console.log(`[SYS] Environment:   ${process.env.NODE_ENV || "development"}`);
+  console.log("-------------------------------------------");
+});
+
+const shutdown = (signal: string) => {
+  console.log(`\n[SYS] ${signal} received. Terminating process cleanly.`);
+  process.exit(0);
+};
+
+process.on("SIGINT", () => shutdown("SIGINT"));
+process.on("SIGTERM", () => shutdown("SIGTERM"));
