@@ -8,4 +8,8 @@ if (!SECRET) {
   } else {
     console.warn("WARNING: JWT_SECRET is missing. Using insecure dev fallback");
   }
+
+  const FINAL_SECRET = SECRET;
+
+  export class TokenUtils {}
 }
