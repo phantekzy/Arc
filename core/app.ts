@@ -4,7 +4,7 @@ import { enhanceResponse } from "./response";
 import { Router, Middleware } from "./router";
 import { parseQuery } from "./utils";
 
-export class ArcNet {
+export class Arc {
   public router = new Router();
   private middlewares: Middleware[] = [];
 
