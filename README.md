@@ -1,82 +1,109 @@
-Arc
-===
+--------------------------------------------------------------------------------
+ARC WEB FRAMEWORK | VERSION 1.0.1 | BY PHANTEKZY
+--------------------------------------------------------------------------------
 
-Arc is a minimal, predictable web framework for Node.js. Built from scratch
-using TypeScript and the native Node.js http module, it eliminates the "magic"
-of larger libraries to provide total control over the request-response lifecycle.
+OVERVIEW
+Arc is a tool for building web servers with Node.js. I built it from zero 
+using only TypeScript and the basic tools inside Node.js. It has no hidden 
+code and no "magic" libraries. It gives you 100% control over how your 
+website or app talks to the internet.
 
-Quick Start
------------
+--------------------------------------------------------------------------------
+HOW TO INSTALL
+--------------------------------------------------------------------------------
+1. Open your terminal.
+2. Type: npm install @phantekzy/arc
+3. IMPORTANT: Arc uses modern JavaScript (ESM). Open your package.json file 
+   and add this line: "type": "module"
 
-* Install Arc: npm install @phantekzy/arc
-* View on NPM: https://www.npmjs.com/package/@phantekzy/arc
-* Latest Release: v1.0.1
-* Repository: https://github.com/phantekzy/Arc
+--------------------------------------------------------------------------------
+QUICK START EXAMPLE
+--------------------------------------------------------------------------------
+import { Arc } from "@phantekzy/arc";
+const app = new Arc();
 
-Essential Documentation
------------------------
-
-All users should be familiar with:
-
-* Routing: Regex-based path matching in core/router.ts
-* Middleware: Recursive next() pipeline in core/app.ts
-* Security: Built-in rate limiting and JWT authentication
-* Error Handling: Global async error boundary in core/error.ts
-
-Project Layout
-==============
-
-* core/        - Framework engine (Router, Request, Response, Error handling)
-* middlewares/ - Built-in security, data parsing, and logging plugins
-* handlers/    - Application logic and request processors
-* routes/      - Route definitions and modular organization
-* utils/       - Token management and shared helper functions
-
-Architecture
-============
-
-1. Routing System
------------------
-The routing system converts path patterns into regular expressions. Dynamic 
-segments (e.g., :id) are automatically extracted and attached to the request 
-object. It supports optional trailing slashes and complex path segments.
-
-2. Middleware Pipeline
-----------------------
-Execution flow is managed by a recursive next() function. This ensures a 
-strict, linear execution of tasks. Global middlewares and route-specific 
-handlers run in a predictable chain using async/await to prevent race 
-conditions.
-
-3. Built-in Middlewares
------------------------
-Arc comes pre-loaded with essential tools for production environments:
-* jsonParser: Safe data parsing with 1MB payload limits
-* staticFiles: Serves assets like images, CSS, and HTML from disk
-* jwtAuth: Handles secure authentication and session data
-* rateLimiter: Prevents API abuse by limiting request frequency
-
-Usage
-=====
-
-Installation:
-npm install @phantekzy/arc
-
-Example:
-import { App } from '@phantekzy/arc';
-
-const app = new App();
-
-app.get('/', (req, res) => {
-    res.send({ message: "Arc is running" });
+// This tells the server what to do when someone visits /api/status
+app.get("/api/status", (req, res) => {
+  res.json({ 
+    status: "online", 
+    message: "Running on Fedora/Linux" 
+  });
 });
 
-app.listen(3000);
+// This starts the engine
+app.listen(3000, () => {
+  console.log("Arc engine is spinning on port 3000");
+});
 
-Next features inchalah
-======================
+--------------------------------------------------------------------------------
+THE ENGINE PARTS (CORE)
+--------------------------------------------------------------------------------
+Arc takes the raw data from the web and makes it easy to read:
 
-* Performance Benchmarking: Measure router speed under high-concurrency loads
-* Dependency Injection: Clean way to pass database instances to context
-* Input Validation: Schema-based middleware for incoming body data
-* CLI Tool: Build a "create-arc-app" command to scaffold new projects
+- req.params: Used for IDs in the URL. If you visit /user/12, then 
+  req.params.id will be "12".
+- req.query: Used for search terms like /search?name=test.
+- req.body: This holds the data sent by the user (like a password or email).
+- req.cookies: This holds the login data stored in the browser.
+
+Response Helpers:
+- res.status(404): Tells the user "Not Found".
+- res.json({ msg: "Hi" }): Sends data back as a clean object.
+- res.send("<h1>Hello</h1>"): Sends text or HTML directly.
+
+--------------------------------------------------------------------------------
+ROUTING AND DYNAMIC PATHS
+--------------------------------------------------------------------------------
+Arc uses "Regex" logic to find the right page. You can use standard methods 
+like GET (to read), POST (to save), PUT (to update), and DELETE (to remove).
+
+Example of a dynamic path:
+app.get("/profile/:username", (req, res) => {
+  res.send("Welcome " + req.params.username);
+});
+
+--------------------------------------------------------------------------------
+MIDDLEWARE (THE PIPELINE)
+--------------------------------------------------------------------------------
+Middlewares are like "checkpoints" that a request passes through.
+1. Logger: Records every visit to the console.
+2. Auth: Checks if the user is logged in before showing a page.
+3. CORS: Allows or blocks other websites from talking to your server.
+
+You use the next() function to tell Arc to move to the next checkpoint.
+
+--------------------------------------------------------------------------------
+BUILT-IN TOOLS (NO EXTRA NPM INSTALLS NEEDED)
+--------------------------------------------------------------------------------
+- jsonParser: Reads JSON data sent to the server.
+- urlencodedParser: Reads data from HTML forms.
+- cookieParser: Reads the small data files in the user's browser.
+- rateLimiter: Stops hackers from spamming your server.
+- jwtAuth: A secure way to check user passwords using tokens.
+- staticFiles: Makes it easy to show your HTML, CSS, and Images.
+
+--------------------------------------------------------------------------------
+INPUT VALIDATION (SECURITY)
+--------------------------------------------------------------------------------
+You can tell Arc exactly what kind of data you want. If the data is wrong, 
+Arc stops the request immediately to keep your server safe.
+
+Example:
+const myRule = { name: "string", age: "number" };
+app.post("/add", validate(myRule), (req, res) => {
+  res.send("Data is safe!");
+});
+
+--------------------------------------------------------------------------------
+THE PLAN FOR THE FUTURE
+--------------------------------------------------------------------------------
+I am still building this engine. Next, I will add:
+- Multi-core support: To make it run faster on powerful CPUs.
+- Benchmarking: To prove how fast it is compared to Express.
+- Better testing: To make sure nothing ever breaks.
+
+You are welcome to help! Go to the GitHub link and contribute code.
+
+--------------------------------------------------------------------------------
+GITHUB: github.com/phantekzy/Arc | NPM: @phantekzy/arc
+--------------------------------------------------------------------------------
