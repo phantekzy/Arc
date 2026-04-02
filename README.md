@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/phantekzy/Arc/main/Arclogo.png" width="800" alt="Arc Logo">
+  <img src="https://raw.githubusercontent.com/phantekzy/Arc/main/Arclogo.png" width="700" alt="Arc Logo">
 </p>
 
 
@@ -32,7 +32,7 @@ const app = new Arc();
 app.get("/api/status", (req, res) => {
   res.json({ 
     status: "online", 
-    message: "Running on Fedora/Linux" 
+    message: "Running on your machine" 
   });
 });
 
