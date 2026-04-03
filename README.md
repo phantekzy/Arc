@@ -5,7 +5,6 @@
 
 
 Fast and simple web framework for nodejs
----
 
 ### OVERVIEW
 Arc is a tool for building web servers with Node.js. I built it from zero 
