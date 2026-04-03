@@ -1,5 +1,5 @@
 
-<p align="center">
+<p align="left">
   <img src="https://raw.githubusercontent.com/phantekzy/Arc/main/Arclogo.png" width="400" alt="Arc Logo">
 </p>
 
