@@ -44,7 +44,7 @@ Arc requires Node.js version 18.0.0 or higher.
 
 ## Rapid Deployment Example
 The following example demonstrates how to initialize the framework and define a protected, validated route.
-
+```javascript
 import { Arc, jwtAuth, validate } from "@phantekzy/arc";
 
 const app = new Arc();
@@ -64,6 +64,7 @@ app.post("/api/user", jwtAuth, validate(userSchema), (req, res) => {
 app.listen(port, () => {
   console.log(`Arc framework operational on port ${port}`);
 });
+```
 
 ## Core Philosophy
 The development of Arc is guided by three fundamental principles:
