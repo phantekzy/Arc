@@ -20,7 +20,7 @@ const publicPath = path.join(process.cwd(), "public");
 if (cluster.isPrimary) {
   const numCPUs = os.cpus().length;
   console.log("-------------------------------------------");
-  console.log(`[ARC] Primary Process: Spawning ${numCPUs} Workers`);
+  console.log(`[ARC] Primary Process: Creating ${numCPUs} Workers`);
   console.log("-------------------------------------------");
 
   for (let i = 0; i < numCPUs; i++) {
