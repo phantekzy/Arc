@@ -1,117 +1,108 @@
+# Arc: High Performance Strictly Typed HTTP Engine
 
 <p align="left">
   <img src="https://raw.githubusercontent.com/phantekzy/Arc/main/Arclogo.png" width="400" alt="Arc Logo">
 </p>
 
+Arc is a lightweight, low level web framework built from scratch using TypeScript and Node.js native modules.
+It is created for developers who require absolute control over the request lifecycle without the overhead of heavy external dependencies. 
+By focusing on a strictly typed architecture and native performance, Arc provides a robust foundation for building scalable microservices and enterprise applications.
 
-Fast and simple web framework for nodejs
+### KEY ARCHITECTURAL FEATURES
+- **Vertical Scalability:** Built in support for Node.js clustering to utilize every CPU core on the host machine.
+- **Strictly Typed Pipeline:** Full TypeScript support for request, response, and middleware objects.
+- **Zero Dependency Core:** Engineered using native Node.js modules to minimize the attack surface and supply chain risks.
+- **Integrated Security:** Native support for JWT authentication, CORS, and rate limiting out of the box.
 
-### OVERVIEW
-Arc is a tool for building web servers with Node.js. I built it from zero 
-using only TypeScript and the basic tools inside Node.js. It has no hidden 
-code and no "magic" libraries. It gives you 100% control over how your 
-website or app talks to the internet.
+---
 
---------------------------------------------------------------------------------
-### HOW TO INSTALL
---------------------------------------------------------------------------------
-1. Open your terminal.
-2. Type: npm install @phantekzy/arc
-3. IMPORTANT: Arc uses modern JavaScript (ESM). Open your package.json file 
-   and add this line: "type": "module"
+### INSTALLATION AND SETUP
+Arc requires Node.js version 18.0.0 or higher.
 
---------------------------------------------------------------------------------
-### QUICK START EXAMPLE
---------------------------------------------------------------------------------
-```javaScript
-import { Arc } from "@phantekzy/arc";
+1. Install the package via NPM:
+   npm install @phantekzy/arc
+
+2. Ensure your project is configured for ECMAScript Modules (ESM) by adding the following to your package.json:
+   "type": "module"
+
+---
+
+### RAPID DEPLOYMENT EXAMPLE
+The following example demonstrates how to initialize the engine and define a protected, validated route.
+
+import { Arc, jwtAuth, validate } from "@phantekzy/arc";
+
 const app = new Arc();
+const port = 3000;
 
-// This tells the server what to do when someone visits /api/status
-app.get("/api/status", (req, res) => {
+// Data Validation Schema
+const userSchema = { name: "string", age: "number" };
+
+// Protected and Validated Route
+app.post("/api/user", jwtAuth, validate(userSchema), (req, res) => {
   res.json({ 
-    status: "online", 
-    message: "Running on your machine" 
+    success: true, 
+    message: "Data validated and user authenticated" 
   });
 });
 
-// This starts the engine
-app.listen(3000, () => {
-  console.log("Arc engine is spinning on port 3000");
+app.listen(port, () => {
+  console.log(`Arc engine operational on port ${port}`);
 });
-```
 
---------------------------------------------------------------------------------
-### THE ENGINE PARTS (CORE)
---------------------------------------------------------------------------------
-Arc takes the raw data from the web and makes it easy to read:
+---
 
-- req.params: Used for IDs in the URL. If you visit /user/12, then 
-  req.params.id will be "12".
-- req.query: Used for search terms like /search?name=test.
-- req.body: This holds the data sent by the user (like a password or email).
-- req.cookies: This holds the login data stored in the browser.
+### CORE ENGINE COMPONENTS
+Arc abstracts raw HTTP streams into manageable, typed objects while maintaining high performance data access.
 
-Response Helpers:
-- res.status(404): Tells the user "Not Found".
-- res.json({ msg: "Hi" }): Sends data back as a clean object.
-- res.send("<h1>Hello</h1>"): Sends text or HTML directly.
+#### Request Context (req)
+- req.params: Access dynamic URL segments (e.g., /user/:id).
+- req.query: Parse URL search parameters.
+- req.body: Access parsed JSON or URL encoded payloads.
+- req.cookies: Retrieve client side state and session identifiers.
 
---------------------------------------------------------------------------------
-### ROUTING AND DYNAMIC PATHS
---------------------------------------------------------------------------------
-Arc uses "Regex" logic to find the right page. You can use standard methods 
-like GET (to read), POST (to save), PUT (to update), and DELETE (to remove).
+#### Response Orchestration (res)
+- res.status(code): Set explicit HTTP response codes.
+- res.json(data): Send structured JSON responses with automatic headers.
+- res.send(content): Dispatch raw text, buffers, or HTML.
+- res.setHeader(name, value): Manage custom HTTP headers directly.
 
-Example of a dynamic path:
-```javaScript
-app.get("/profile/:username", (req, res) => {
-  res.send("Welcome " + req.params.username);
-});
-```
---------------------------------------------------------------------------------
-### MIDDLEWARE (THE PIPELINE)
---------------------------------------------------------------------------------
-Middlewares are like "checkpoints" that a request passes through.
-1. Logger: Records every visit to the console.
-2. Auth: Checks if the user is logged in before showing a page.
-3. CORS: Allows or blocks other websites from talking to your server.
+---
 
-You use the next() function to tell Arc to move to the next checkpoint.
+### DISTRIBUTED SYSTEMS AND CLUSTERING
+Arc is designed for high availability environments. By utilizing the built in clustering module, the engine can fork multiple worker processes to balance incoming traffic.
 
---------------------------------------------------------------------------------
-### BUILT-IN TOOLS (NO EXTRA NPM INSTALLS NEEDED)
---------------------------------------------------------------------------------
-- jsonParser: Reads JSON data sent to the server.
-- urlencodedParser: Reads data from HTML forms.
-- cookieParser: Reads the small data files in the user's browser.
-- rateLimiter: Stops hackers from spamming your server.
-- jwtAuth: A secure way to check user passwords using tokens.
-- staticFiles: Makes it easy to show your HTML, CSS, and Images.
+- Primary Process: Orchestrates the lifecycle of the application and monitors worker health.
+- Worker Processes: Independent instances of the server running on separate CPU cores to maximize throughput.
+- Self Healing: The system automatically detects worker failure and spawns replacement processes to ensure zero downtime.
 
---------------------------------------------------------------------------------
-### INPUT VALIDATION (SECURITY)
---------------------------------------------------------------------------------
-You can tell Arc exactly what kind of data you want. If the data is wrong, 
-Arc stops the request immediately to keep your server safe.
+---
 
-Example:
-```javaScript
-const myRule = { name: "string", age: "number" };
-app.post("/add", validate(myRule), (req, res) => {
-  res.send("Data is safe!");
-});
-```
---------------------------------------------------------------------------------
-### THE PLAN FOR THE FUTURE
---------------------------------------------------------------------------------
-I am still building this engine. Next, I will add:
-- Multi-core support: To make it run faster on powerful CPUs.
-- Benchmarking: To prove how fast it is compared to Express.
-- Better testing: To make sure nothing ever breaks.
+### ADVANCED MIDDLEWARE PIPELINE
+The framework utilizes a linear execution pipeline, allowing developers to chain logic as "checkpoints" before reaching the final handler.
 
-You are welcome to help! Go to the GitHub link and contribute code.
+1. Authentication: Integrated JWT verification to protect sensitive endpoints.
+2. Input Validation: A schema based validator that scrubs both request bodies and URL parameters.
+3. Rate Limiting: Protects the system against brute force attacks and request flooding.
+4. CORS: Configurable headers to manage cross origin resource sharing safely.
 
---------------------------------------------------------------------------------
-### GITHUB: github.com/phantekzy/Arc | NPM: @phantekzy/arc
---------------------------------------------------------------------------------
+---
+
+### NATIVE TOOLKIT (BUILT-IN)
+Arc includes essential tools required for modern web development, removing the need for third party utility libraries:
+- jsonParser: High speed JSON payload decoding.
+- urlencodedParser: Standard form data processing.
+- cookieParser: Secure cookie extraction and management.
+- staticFiles: High performance serving of assets like CSS, JS, and images.
+
+---
+
+### PROJECT ROADMAP
+The Arc engine is in active development. Future releases will focus on:
+- Benchmarking Suites: Comparative performance analysis against Express and Fastify.
+- Automated Testing: Implementation of a comprehensive unit and integration testing suite.
+- Enhanced Telemetry: Internal metrics for monitoring engine performance in real time.
+
+Contributions: Arc is an open source project. Developers are encouraged to submit pull requests or report issues on the official GitHub repository.
+
+GitHub: github.com/phantekzy/Arc | NPM: @phantekzy/arc
