@@ -23,8 +23,9 @@ Arc requires Node.js version 18.0.0 or higher.
    npm install @phantekzy/arc
 
 2. Ensure your project is configured for ECMAScript Modules (ESM) by adding the following to your package.json:
+   ```javascript
    "type": "module"
-
+    ```
 ---
 
 ### RAPID DEPLOYMENT EXAMPLE
