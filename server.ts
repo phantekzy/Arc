@@ -1,5 +1,7 @@
 import "dotenv/config";
-import path, { parse } from "path";
+import path from "path";
+import cluster from "node:cluster";
+import os from "node:os";
 import { Arc } from "./core/app";
 import { cookieParser } from "./middlewares/cookieParser";
 import { cors } from "./middlewares/cors";
@@ -9,8 +11,6 @@ import { rateLimiter } from "./middlewares/rateLimiter";
 import { urlencodedParser } from "./middlewares/urlencodedParser";
 import { staticFiles } from "./middlewares/staticFiles";
 import { registerUserRoutes } from "./routes/userRoutes";
-import cluster from "cluster";
-import os from "node:os";
 
 const PORT = parseInt(process.env.PORT || "3000", 10);
 const publicPath = path.join(process.cwd(), "public");
@@ -18,47 +18,43 @@ const publicPath = path.join(process.cwd(), "public");
 if (cluster.isPrimary) {
   const numCPUs = os.cpus().length;
   console.log("-------------------------------------------");
-  console.log(`[ARC] Creating ${numCPUs} Workers`);
+  console.log(`[ARC] Primary Process: Spawning ${numCPUs} Workers`);
   console.log("-------------------------------------------");
 
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
   }
 
-  cluster.on("exit", (Worker) => {
-    console.log(`[ARC] Worker ${Worker.process.pid} died. Restarting...`);
+  cluster.on("exit", (worker) => {
+    console.log(`[ARC] Worker ${worker.process.pid} died. Restarting...`);
     cluster.fork();
+  });
+} else {
+  const app = new Arc();
+
+  app.use(logger);
+  app.use(cors);
+  app.use(rateLimiter(100, 60000));
+  app.use(cookieParser);
+  app.use(jsonParser);
+  app.use(urlencodedParser);
+  app.use(staticFiles(publicPath, "/static"));
+
+  registerUserRoutes(app);
+
+  app.listen(PORT, () => {
+    console.log(
+      `[ARC] Worker ${process.pid}: Operational on http://localhost:${PORT}`,
+    );
   });
 }
 
-/* const app = new Arc();
-
-app.use(logger);
-app.use(cors);
-app.use(rateLimiter(100, 60000));
-app.use(cookieParser);
-app.use(jsonParser);
-app.use(urlencodedParser);
-
-const publicPath = path.join(process.cwd(), "public");
-app.use(staticFiles(publicPath, "/static"));
-
-registerUserRoutes(app);
-
-const PORT = parseInt(process.env.PORT || "3000", 10);
-app.listen(PORT, () => {
-  console.log("-------------------------------------------");
-  console.log(`[ARC] Arc Engine: Operational`);
-  console.log(`[ARC] Endpoint:      http://localhost:${PORT}`);
-  console.log(`[ARC] Static Root:   ${publicPath}`);
-  console.log(`[ARC] Environment:   ${process.env.NODE_ENV || "development"}`);
-  console.log("-------------------------------------------");
-});
-
 const shutdown = (signal: string) => {
-  console.log(`\n[ARC] ${signal} received. Terminating process cleanly.`);
+  console.log(
+    `\n[ARC] ${signal} received. Terminating process ${process.pid} cleanly.`,
+  );
   process.exit(0);
 };
 
 process.on("SIGINT", () => shutdown("SIGINT"));
-process.on("SIGTERM", () => shutdown("SIGTERM")); */
+process.on("SIGTERM", () => shutdown("SIGTERM"));
