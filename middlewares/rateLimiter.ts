@@ -1,4 +1,4 @@
-import { Middleware } from "../core/router";
+import { Middleware } from "../core/router.js";
 
 interface RateRecord {
   count: number;

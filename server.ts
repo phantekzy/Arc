@@ -2,17 +2,15 @@ import "dotenv/config";
 import path from "path";
 import cluster from "node:cluster";
 import os from "node:os";
-import {
-  Arc,
-  logger,
-  cors,
-  rateLimiter,
-  cookieParser,
-  jsonParser,
-  urlencodedParser,
-  staticFiles,
-} from "./src";
-import { registerUserRoutes } from "./routes/userRoutes";
+import { registerUserRoutes } from "./routes/userRoutes.js";
+import { Arc } from "./core/app.js";
+import { logger } from "./middlewares/logger.js";
+import { cors } from "./middlewares/cors.js";
+import { rateLimiter } from "./middlewares/rateLimiter.js";
+import { cookieParser } from "./middlewares/cookieParser.js";
+import { jsonParser } from "./middlewares/jsonParser.js";
+import { urlencodedParser } from "./middlewares/urlencodedParser.js";
+import { staticFiles } from "./middlewares/staticFiles.js";
 
 const PORT = parseInt(process.env.PORT || "3000", 10);
 const publicPath = path.join(process.cwd(), "public");

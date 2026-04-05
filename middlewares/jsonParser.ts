@@ -1,4 +1,4 @@
-import { Middleware } from "../core/router";
+import { Middleware } from "../core/router.js";
 
 export const jsonParser: Middleware = (req, res, next) => {
   const MAX_SIZE = 1 * 1024 * 1024;

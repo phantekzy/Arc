@@ -1,5 +1,5 @@
-import { ArcRequest } from "./request";
-import { ArcResponse } from "./response";
+import { ArcRequest } from "./request.js";
+import { ArcResponse } from "./response.js";
 
 export type Middleware = (
   req: ArcRequest,

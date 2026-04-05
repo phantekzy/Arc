@@ -1,7 +1,7 @@
-import { Middleware } from "../core/router";
-import { HttpError } from "../core/error";
+import { Middleware } from "../core/router.js";
+import { HttpError } from "../core/error.js";
 
-const MAX_PAYLOAD_SIZE = 1048576; // 1MB limit
+const MAX_PAYLOAD_SIZE = 1048576;
 
 export const urlencodedParser: Middleware = (req, res, next) => {
   if (req.headers["content-type"] !== "application/x-www-form-urlencoded") {

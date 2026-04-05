@@ -1,4 +1,4 @@
-import { Middleware } from "../src";
+import { Middleware } from "../core/router.js";
 
 export const validate = (
   schema: Record<string, string>,

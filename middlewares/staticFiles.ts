@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import { Middleware } from "../core/router";
-import { HttpError } from "../core/error";
+import { Middleware } from "../core/router.js";
+import { HttpError } from "../core/error.js";
 
 const MIME_TYPES: Record<string, string> = {
   ".html": "text/html",

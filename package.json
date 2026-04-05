@@ -1,9 +1,10 @@
 {
   "name": "@phantekzy/arc",
-  "version": "1.0.2",
-  "description": "High-performance strictly-typed HTTP orchestration engine",
+  "version": "1.1.0",
+  "description": "Minimalist multi-core web framework for Node.js",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
+  "type": "module",
   "files": [
     "dist",
     "README.md"

@@ -1,4 +1,4 @@
-import { Middleware } from "../core/router";
+import { Middleware } from "../core/router.js";
 
 export const cors: Middleware = (req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");

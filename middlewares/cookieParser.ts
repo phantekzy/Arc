@@ -1,4 +1,4 @@
-import { Middleware } from "../core/router";
+import { Middleware } from "../core/router.js";
 
 export const cookieParser: Middleware = (req, res, next) => {
   const cookieHeader = req.headers.cookie;

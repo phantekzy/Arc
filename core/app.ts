@@ -1,9 +1,9 @@
 import http from "http";
-import { ArcRequest } from "./request";
-import { ArcResponse, enhanceResponse } from "./response";
-import { Router, Middleware } from "./router";
-import { parseQuery } from "./utils";
-import { HttpError } from "./error";
+import { ArcRequest } from "./request.js";
+import { ArcResponse, enhanceResponse } from "./response.js";
+import { Router, Middleware } from "./router.js";
+import { parseQuery } from "./utils.js";
+import { HttpError } from "./error.js";
 
 export class Arc {
   public router = new Router();
