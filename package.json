@@ -1,10 +1,16 @@
 {
   "name": "@phantekzy/arc",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Minimalist multi-core web framework for Node.js",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
   "type": "module",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js"
+    }
+  },
   "files": [
     "dist",
     "README.md"
