@@ -107,4 +107,4 @@ The Arc engine is in active development. Future releases will focus on:
 ### Contributions: 
 Arc is an open source project. Developers are encouraged to submit pull requests or report issues on the official GitHub repository.
 
-GitHub: github.com/phantekzy/Arc | NPM: @phantekzy/arc
+**GitHub:** [github.com/phantekzy/Arc](https://github.com/phantekzy/Arc) | **NPM:** [@phantekzy/arc](https://www.npmjs.com/package/@phantekzy/arc)
