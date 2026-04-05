@@ -24,6 +24,11 @@ if (cluster.isPrimary) {
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
   }
+
+  cluster.on("exit", (Worker) => {
+    console.log(`[ARC] Worker ${Worker.process.pid} died. Restarting...`);
+    cluster.fork();
+  });
 }
 
 /* const app = new Arc();
