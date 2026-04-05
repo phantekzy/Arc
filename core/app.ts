@@ -28,30 +28,29 @@ export class Arc {
 
     const matched = this.router.match(req.method || "GET", path);
 
+    const pipeline = [...this.middlewares];
+
     if (matched) {
       arcReq.params = matched.params;
+      pipeline.push(...matched.handlers);
+    } else {
+      pipeline.push((_req, res) => {
+        if (!res.headersSent) {
+          res.status(404).json({ error: "Not Found" });
+        }
+      });
     }
-
-    const notFoundHandler: Middleware = (req, res) => {
-      if (!res.headersSent) {
-        res.status(404).json({ error: "Not Found" });
-      }
-    };
-
-    const routeHandlers = matched ? matched.handlers : [notFoundHandler];
-    const pipeline = [...this.middlewares, ...routeHandlers];
 
     let index = 0;
 
     const next = async (err?: any) => {
+      if (arcRes.headersSent) return;
+
       if (err) {
-        if (!arcRes.headersSent) {
-          const status = err instanceof HttpError ? err.statusCode : 500;
-          arcRes
-            .status(status)
-            .json({ error: err.message || "Internal Server Error" });
-        }
-        return;
+        const status = err instanceof HttpError ? err.statusCode : 500;
+        return arcRes
+          .status(status)
+          .json({ error: err.message || "Internal Server Error" });
       }
 
       if (index < pipeline.length) {
@@ -59,10 +58,8 @@ export class Arc {
           const mw = pipeline[index++];
           await mw(arcReq, arcRes, next);
         } catch (error) {
-          next(error);
+          await next(error);
         }
-      } else if (!matched && !arcRes.headersSent) {
-        arcRes.status(404).json({ error: "Not Found" });
       }
     };
 
