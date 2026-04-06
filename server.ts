@@ -1,4 +1,3 @@
-import "dotenv/config";
 import path from "path";
 import cluster from "node:cluster";
 import os from "node:os";

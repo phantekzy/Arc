@@ -1,6 +1,6 @@
 {
   "name": "@phantekzy/arc",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Minimalist multi-core web framework for Node.js",
   "type": "module",
   "main": "./dist/src/index.js",
@@ -16,23 +16,22 @@
     "README.md"
   ],
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.6.0"
   },
   "scripts": {
-    "dev": "tsx watch server.ts",
+    "dev": "node --env-file=.env --import tsx --watch server.ts",
     "build": "rm -rf dist && tsc",
-    "start": "node dist/server.js",
+    "start": "node --env-file=.env dist/server.js",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "dotenv": "^17.3.1",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "9.0.2"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.11.0",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.21.0",
-    "typescript": "^5.3.3"
+    "@types/jsonwebtoken": "9.0.6",
+    "@types/node": "20.11.0",
+    "ts-node": "10.9.2",
+    "tsx": "4.21.0",
+    "typescript": "5.3.3"
   }
 }

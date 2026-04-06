@@ -25,7 +25,7 @@ By focusing on a strictly typed architecture and native performance, Arc provide
 * [License](#license)
 
 ## Installation
-Arc requires Node.js version 18.0.0 or higher.
+Arc requires Node.js version 20.6.0 or higher to utilize native environment variable loading and enhanced ESM support.
 
 1. Install the package via NPM:
 ```bash
@@ -41,29 +41,52 @@ Arc requires Node.js version 18.0.0 or higher.
 * Strictly Typed Pipeline: Full TypeScript support for request, response, and middleware objects.
 * Zero Dependency Core: Engineered using native Node.js modules to minimize the attack surface and supply chain risks.
 * Integrated Security: Native support for JWT authentication, CORS, and rate limiting out of the box.
-
+* Native Environment Management: Zero reliance on third-party env loaders. Uses Node.js native --env-file integration for better performance and security.
 ## Rapid Deployment Example
 The following example demonstrates how to initialize the framework and define a protected, validated route.
 ```javascript
-import { Arc, jwtAuth, validate } from "@phantekzy/arc";
+import { Arc } from "@phantekzy/arc";
+import { jwtAuth } from "@phantekzy/arc/middlewares/jwtAuth";
+import { validate } from "@phantekzy/arc/middlewares/validator";
 
 const app = new Arc();
-const port = 3000;
+
+// The Engine automatically picks up PORT from your environment
+const port = process.env.PORT || 3000;
 
 // Data Validation Schema
 const userSchema = { name: "string", age: "number" };
 
 // Protected and Validated Route
-app.post("/api/user", jwtAuth, validate(userSchema), (req, res) => {
+// Logic: Auth Check -> Schema Validation -> Final Handler
+app.post("/api/user", jwtAuth, validate(userSchema, "body"), (req, res) => {
   res.json({ 
     success: true, 
-    message: "Data validated and user authenticated" 
+    message: "Arc Engine: Data validated and user authenticated",
+    data: req.body
   });
 });
 
 app.listen(port, () => {
   console.log(`Arc framework operational on port ${port}`);
 });
+
+```
+## Running the Application (Modern Node.js) :
+Unlike legacy frameworks that rely on the dotenv package to patch variables at runtime, Arc utilizes Node.js native environment injection.
+This ensures a smaller attack surface and faster boot times.
+1. Create your .env file:
+```bash
+PORT=3000
+JWT_SECRET=your_secret_key
+```
+2. Start the Engine:
+```bash
+# Development
+node --env-file=.env server.js
+
+# Production (Standard)
+node --env-file=.env dist/server.js
 ```
 
 ## Core Philosophy
