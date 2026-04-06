@@ -1,6 +1,6 @@
 {
   "name": "@phantekzy/arc",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Minimalist multi-core web framework for Node.js",
   "type": "module",
   "main": "./dist/src/index.js",
@@ -9,6 +9,18 @@
     ".": {
       "types": "./dist/src/index.d.ts",
       "import": "./dist/src/index.js"
+    },
+    "./middlewares/*": {
+      "types": "./dist/middlewares/*.d.ts",
+      "import": "./dist/middlewares/*.js"
+    },
+    "./core/*": {
+      "types": "./dist/core/*.d.ts",
+      "import": "./dist/core/*.js"
+    },
+    "./utils/*": {
+      "types": "./dist/utils/*.d.ts",
+      "import": "./dist/utils/*.js"
     }
   },
   "files": [
