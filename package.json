@@ -1,6 +1,6 @@
 {
   "name": "@phantekzy/arc",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Minimalist multi-core web framework for Node.js",
   "type": "module",
   "main": "./dist/src/index.js",

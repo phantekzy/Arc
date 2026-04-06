@@ -9,6 +9,11 @@ export class Arc {
   public router = new Router();
   private middlewares: Middleware[] = [];
 
+  public get = this.router.get.bind(this.router);
+  public post = this.router.post.bind(this.router);
+  public put = this.router.put.bind(this.router);
+  public delete = this.router.delete.bind(this.router);
+
   use(m: Middleware) {
     this.middlewares.push(m);
   }
