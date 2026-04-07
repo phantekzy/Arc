@@ -45,5 +45,6 @@
     "ts-node": "10.9.2",
     "tsx": "4.21.0",
     "typescript": "5.3.3"
-  }
+  },
+  "license": "MIT"
 }
