@@ -1,5 +1,3 @@
-# Arc: Minimalist Multi-Core Web Framework for Node.js
-
 <p align="left">
   <img src="https://raw.githubusercontent.com/phantekzy/Arc/main/Arclogo.png" width="400" alt="Arc Logo">
 </p>
@@ -144,7 +142,7 @@ npm test
 * Maini Lotfi Abdelkader (@phantekzy) — Lead Architect & Maintainer
 
 ## License
-The Arc framework is licensed under the [MIT License](LICENSE).
+[MIT License](LICENSE).
 
 ---
 **GitHub:** [github.com/phantekzy/Arc](https://github.com/phantekzy/Arc) | **NPM:** [@phantekzy/arc](https://www.npmjs.com/package/@phantekzy/arc)
