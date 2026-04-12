@@ -1,5 +1,5 @@
-<p align="left">
-  <img src="https://raw.githubusercontent.com/phantekzy/Arc/main/Arclogo.png" width="400" alt="Arc Logo">
+<p align="center">
+  <img src="https://raw.githubusercontent.com/phantekzy/Arc/main/Arclogo.png" width="700" alt="Arc Logo">
 </p>
 
 Arc is a lightweight low level web framework built from scratch using TypeScript and Node.js native modules.
