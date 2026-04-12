@@ -1,7 +1,7 @@
 # Arc: Minimalist Multi-Core Web Framework for Node.js
 
 <p align="left">
-  <img src="https://raw.githubusercontent.com/phantekzy/Arc/main/Arclogo.png" width="300" alt="Arc Logo">
+  <img src="https://raw.githubusercontent.com/phantekzy/Arc/main/Arclogo.png" width="400" alt="Arc Logo">
 </p>
 
 Arc is a lightweight low level web framework built from scratch using TypeScript and Node.js native modules.
